@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_hospital_patient,account.hospital.patient,model_hospital_patient,,1,1,1,1
+access_hospital_appointments,account.hospital.appointments,model_hospital_appointments,,1,1,1,1
+access_hospital_doctors,account.hospital.doctors,model_hospital_doctors,,1,1,1,1
+access_create_appointment_wizard,account.create.appointment.wizard,model_create_appointment_wizard,,1,1,1,1

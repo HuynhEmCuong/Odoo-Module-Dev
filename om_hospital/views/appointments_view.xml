@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--    Create module for module in odoo-->
+    <record id="appointments_action" model="ir.actions.act_window">
+        <field name="name">Appointments</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hospital.appointments</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                create your first appointments!
+            </p>
+        </field>
+    </record>
+
+    <!--    Create view tree for module in odoo-->
+    <record id="view_appointments_tree" model="ir.ui.view">
+        <field name="name">view_patient_tree</field>
+        <field name="model">hospital.appointments</field>
+        <field name="arch" type="xml">
+            <tree>
+            <header>
+                 <button  name="action_done" string="Mask As Done" class="btn-primary"  type="object" />
+                 <button  name="action_note" string="Add Note" class="btn-secondary"  type="object" />
+            </header>
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="note"/>
+                <field name="state"/>
+                <field name="date_appointment"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--    Config Search -->
+    <record id="patient_search" model="ir.ui.view">
+        <field name="name">patient_search</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+
+                <field name="note"/>
+    
+                <group expand="1" string="Group By">
+                    <filter string="Name" name="name" context="{'group_by':'name'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!--    Create Form for module (create ,edit ...) : action menu-->
+    <record id="view_appointments_form" model="ir.ui.view">
+        <field name="name">view_appointments_form</field>
+        <field name="model">hospital.appointments</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button id="button_draft" name="action_draft" string="Draft" class="btn-primary" states="cancel" type="object" confirm="Are you sure that you need to draft?"/>
+                    <button id="button_confirm" name="action_confirm" string="Confirm" class="btn-primary" states="draft" type="object"/>
+                    <button id="button_done" name="action_done" string="Done" class="btn-primary" states="confirm" type="object"/>
+                    <button id="button_cancel" name="action_cancel" string="Canceled" states="draft,confirm,done" type="object"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="patient_id"/>
+                            <field name="age"/>
+                            <field name="gender" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="date_appointment"/>
+                            <field name="note"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!--    Create and edit menu -->
+    <menuitem id="menu_appointment_root" name="Appointments" parent="menu_hospital_root" sequence="10" />
+
+    <menuitem
+        id="hospital_appointment"
+        name="Appointments"
+        parent="menu_appointment_root"
+        action="appointments_action"
+        sequence="10"/>
+        
+    <menuitem
+        id="create_appointment"
+        name="Create Appointment"
+        parent="menu_appointment_root"
+        action="action_create_appointment_wizard"
+        sequence="10"/>
+
+         
+    <!-- <menuitem
+        id="create_doctor"
+        name="Create Doctor"
+        parent="menu_appointment_root"
+        action="hospital_doctor_action"
+        sequence="10"/> -->
+</odoo>

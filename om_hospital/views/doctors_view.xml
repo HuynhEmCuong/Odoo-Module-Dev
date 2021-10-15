@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <!--    Create module for module in odoo-->
+    <record id="doctors_action" model="ir.actions.act_window">
+        <field name="name">Doctors</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hospital.doctors</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <!-- <field name="domain" > [('age','&lt;=',18)]</field> -->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                create your first Doctor!
+            </p>
+        </field>
+    </record>
+
+    <record id="view_doctors_form" model="ir.ui.view">
+        <field name="name">view_doctors_form</field>
+        <field name="model">hospital.doctors</field>
+        <field name="arch" type="xml">
+            <form>             
+                <sheet>
+                        <field name="image" widget="image" class="oe_avatar"/>
+                        <div class="oe_title">
+                        <h1>
+                            <field name="doctor_code"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                           <field name="name"/>
+                            <field name="age"/>
+                          
+                        </group>
+                        <group>
+                            <field name="gender"/>
+                            <field name="note"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+     <record id="view_doctors_tree" model="ir.ui.view">
+        <field name="name">view_doctor_tree</field>
+        <field name="model">hospital.doctors</field>
+        <field name="arch" type="xml">
+            <tree sample="1">
+            <header>
+                 <button  name="action_lock" string="Lock doctor" class="btn-primary"  type="object" />
+           
+            </header>
+                <field name="doctor_code"/>
+                <field name="name"/>
+                <field name="age"/>
+                <field name="gender"/>
+                <field name="note"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_doctor_kanban" model="ir.ui.view">
+        <field name="name">view_doctor_kanban</field>
+        <field name="model">hospital.doctors</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" sample="1">
+                <field name="name"/>
+                <field name="age"/>
+                <field name="note"/>
+                <field name="image"/>
+                <field name="id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                            
+                               <div class="o_kanban_image">
+                                <img t-att-src="kanban_image('hospital.doctors', 'image', record.id.raw_value)" alt="Product" class="o_image_64_contain"/>
+                            </div>
+                                <ul>
+                                 <li>
+                                      
+                                        <field name="image"/>
+                                    </li>
+                                    <li>
+                                        Name:
+                                        <field name="name"/>
+                                    </li>
+                                    <li>
+                                        Age:
+                                        <field name="age"/>
+                                    </li>
+                                    <li>
+                                        Note:
+                                        <field name="note"/>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    
+
+
+
+   <menuitem id="menu_doctor_root" name="Doctor" parent="menu_hospital_root" sequence="20" />
+
+    <menuitem
+        id="hospital_doctor"
+        name="Doctors"
+        parent="menu_doctor_root"
+        action="doctors_action"
+        sequence="10"/>
+</odoo>

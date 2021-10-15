@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="report_wearhouse_invoice">
+             <style>.report_border {
+              border: 1px solid black;
+            }
+            .none_border {
+              border: none;
+              border-top: none;
+            }
+            .report_border > thead > tr > th,
+            .report_border > tbody > tr > th,
+            .report_border > thead > tr > td,
+            .report_border > tbody > tr > td {
+              border: 1px solid black !important;
+            }</style>
+
+
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="oe_structure"/>
+                            <h1 class="text-center mb-5">
+                                Phiếu <span t-field="o.wearhouse_type"/>
+                            </h1 >
+                            <div class="row mb-4">
+                                <div class="col-6">
+                                     <p>
+                                       <strong>Mã phiếu :</strong>
+                                        <span t-field="o.reference" />
+                                    </p>
+                                    <p>
+                                        <strong t-if="o.wearhouse_type=='wearhouse_out'"> Người xuất :</strong>
+                                        <strong t-if="o.wearhouse_type=='wearhouse_in'"> Người nhận :</strong>
+                                        <span t-field="o.current_user" />
+                                    </p>
+                                    <p>
+                                        <strong> Ngày :</strong>
+                                        <span t-field="o.date_wearhouse" />
+                                    </p>
+                                      <p>
+                                        <strong> Ghi chú :</strong>
+                                        <span t-field="o.note" />
+                                    </p>
+                                </div>
+                                 <div class="col-6">
+                                    <p>
+                                        <strong t-if="o.wearhouse_type=='wearhouse_out'"> Người nhận :</strong>
+                                        <strong t-if="o.wearhouse_type=='wearhouse_in'"> Người trả :</strong>
+                                        <span t-field="o.name_receiver" />
+                                    </p>
+                                      <p>
+                                        <strong> Bộ phân :</strong>
+                                        <span t-field="o.dept_receiver" />
+                                    </p>
+                                    <p>
+                                        <strong> Block :</strong>
+                                        <span t-field="o.block_id" />
+                                    </p>
+                                      <p>
+                                        <strong> Phòng :</strong>
+                                        <span t-field="o.room_id" />
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                             <table class="table table-sm report_border" >
+                                <thead>
+                                    <tr>
+                                        <th><strong>Sản phẩm</strong></th>
+                                        <th ><strong>Số lượng</strong></th>
+                                        <th ><strong>Tình trạng</strong></th>
+                                        <th ><strong>Ghi chú</strong></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                        <tr t-foreach="o.asset_wearhouse_detail" t-as="werhouse">
+                                            <td><span t-field="werhouse.product_id"/></td>
+                                            <td><span t-field="werhouse.quantity"/></td>
+                                            <td><span t-field="werhouse.device_status"/></td>
+                                            <td><span t-field="werhouse.note"/></td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                     </t>
+                 </t>
+            </t>
+        </template>
+    </data>
+</odoo>

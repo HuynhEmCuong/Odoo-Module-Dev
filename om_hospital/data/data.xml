@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Sequences for hospital.patient -->
+        <record id="seq_sale_order" model="ir.sequence">
+            <field name="name">Patient Sequence</field>
+            <field name="code">hospital.patient</field>
+            <field name="prefix">A</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Sequences for hospital.appointments -->
+        <record id="hospital_appointments" model="ir.sequence">
+            <field name="name">Appointment Sequence</field>
+            <field name="code">hospital.appointments</field>
+            <field name="prefix">OT</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+
+        <!-- Sequences for hospital.appointments -->
+        <record id="hospital_doctors" model="ir.sequence">
+            <field name="name">Doctors Sequence</field>
+            <field name="code">hospital.doctors</field>
+            <field name="prefix">D</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+
+    </data>
+</odoo>

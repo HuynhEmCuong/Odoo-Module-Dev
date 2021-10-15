@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <!--    Create module for module in odoo-->
+    <record id="hospital_kid_action" model="ir.actions.act_window">
+        <field name="name">Kids</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hospital.patient</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="domain" > [('age','&lt;=',18)]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                create your first Kids!
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_kids"
+              name="Kids"
+              parent="menu_patient_root"
+              action="hospital_kid_action"
+              sequence="20"/>
+</odoo>

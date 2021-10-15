@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_report_wearhouse_invoice" model="ir.actions.report">
+            <field name="name">Export Invoice</field>
+            <field name="model">asset.wearhouse</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">eiu_asset.report_wearhouse_invoice</field>
+            <field name="report_file">eiu_asset.report_wearhouse_invoice</field>
+            <field name="binding_model_id" ref="model_asset_wearhouse"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

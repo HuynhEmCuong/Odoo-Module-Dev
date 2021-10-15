@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--    Create module for module in odoo-->
+    <record id="wearhouse_action" model="ir.actions.act_window">
+        <field name="name">Xuất kho</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">asset.wearhouse</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="domain">[('wearhouse_type','=','wearhouse_out')]</field>
+        <field name="context">{'default_wearhouse_type':'wearhouse_out'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+               Tạo đơn xuất kho mới
+            </p>
+        </field>
+    </record> 
+
+
+      <record id="wearhouse_detail_action" model="ir.actions.act_window">
+        <field name="name">Đơn kho</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">asset.wearhouse.detail</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+               Tạo đơn xuất kho mới
+            </p>
+        </field>
+    </record> 
+
+
+    <record id="view_wearhouse_form" model="ir.ui.view">
+        <field name="name">view_wearhouse_form</field>
+        <field name="model">asset.wearhouse</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                     <button id="button_confirm" name="action_confirm" string="Hoàn thành" class="btn-primary" states="applying" type="object" confirm="Bạn có muốn hoàn thành?"/>
+                    <button id="button_applying" name="action_applying" string="Hủy bỏ"  states="confirm" type="object" />
+                    <button id="button_data" name="get_data" string="GetData"  type="object" />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <div>
+                         <h1>
+                            <field name="reference"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="current_user"/>
+                            <field name="note"/>
+                            <field name="date_wearhouse"/>
+                        </group>
+                        <group>
+                            <field name="block_id"/>
+                            <field name="room_id"/>
+                            <!-- <div class="oe_left">
+                                <label for="name_receiver" string="Người nhận" attrs="{'invisible': [('wearhouse_type', '!=', 'wearhouse_out')]}" style="font-weight:bold;"/>
+                                <label for="name_receiver" string="Người trả" attrs="{'invisible': [('wearhouse_type', '!=', 'wearhouse_in')]}" style="font-weight:bold;"/>
+                            </div> -->
+                            <field name="name_receiver"/>
+                            <field name="dept_receiver"/>
+                            <field name="wearhouse_type" invisible='1'/>
+                            
+                        </group>
+                    </group>
+                    <notebook>
+                        <page  string="Danh sách sản phẩm">
+                            <field name="asset_wearhouse_detail">
+                                <tree >
+                               
+                                        <field name="categ_id"/>
+                                        <field name="product_id"/>
+                                        <field name="device_status"/>
+                                        <field name="quantity"/>
+                                        <field name="note"/>
+                                        <field name="quantity_update_inventory" invisible="1"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <field name="categ_id"/>
+                                        <field name="product_id"/>
+                                        <field name="device_status"/>
+                                        <field name="quantity"/>
+                                        <field name="note"/>
+                                        <field name="quantity_wearhouse" />
+                                        
+                                        <field name="quantity_update_inventory" invisible="1"/>
+                                        <field name="quantity_available" invisible="1"/>
+                                        <field name="asset_wearhouse_id" invisible="1"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>  
+
+    <record id="view_wearhouse_tree" model="ir.ui.view">
+        <field name="name">view_wearhouse_tree</field>
+        <field name="model">asset.wearhouse</field>
+        <field name="arch" type="xml">
+            <tree decoration-warning ="state=='applying'">
+                <field name="reference"/>
+                <field name="current_user"/>
+                <field name="note"/>
+                <field name="date_wearhouse"/>
+                <field name="name_receiver"/>
+                <field name="dept_receiver"/>
+                <field name="wearhouse_type" invisible='1'/>
+                <field name="state" decoration-success="state == 'confirm'"  decoration-warning="state == 'applying'" widget="badge" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <menuitem id="menu_manager_root" name="Quản lý tài sản" sequence="10"/>
+
+    <menuitem id="menu_wearhouse_root" name="Kho" parent="menu_manager_root" sequence="1" />
+
+    <menuitem
+        id="manager_wearhouse"
+        name="Xuất kho"
+        parent="menu_wearhouse_root"
+        action="wearhouse_action"
+        sequence="10"/>
+</odoo>

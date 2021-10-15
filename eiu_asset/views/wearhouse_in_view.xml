@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--    Create module for module in odoo-->
+    <record id="wearhouse_view_action" model="ir.actions.act_window">
+        <field name="name">Nhập kho</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">asset.wearhouse</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="domain" > [('wearhouse_type','=','wearhouse_in')]</field>
+        <field name="context">{'default_wearhouse_type':'wearhouse_in'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Tạo đơn nhập kho mới
+            </p>
+        </field>
+    </record> 
+
+
+    <menuitem
+        id="manager_wearhouse_in"
+        name="Nhập  kho"
+        parent="menu_wearhouse_root"
+        action="wearhouse_view_action"
+        sequence="10"/>
+</odoo>

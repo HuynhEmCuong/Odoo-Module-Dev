@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Sequences for hospital.patient -->
+        <record id="seq_asset_block" model="ir.sequence">
+            <field name="name">Asset Block</field>
+            <field name="code">asset.block</field>
+            <field name="prefix">B</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_asset_room" model="ir.sequence">
+            <field name="name">Asset Room</field>
+            <field name="code">asset.room</field>
+            <field name="prefix">R</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_asset_wearhouse_out" model="ir.sequence">
+            <field name="name">Asset Wearhouse Out</field>
+            <field name="code">asset.wearhouse.out</field>
+            <field name="prefix">EIU/WH/OUT/</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>       
+
+         <record id="seq_asset_wearhouse_in" model="ir.sequence">
+            <field name="name">Asset Wearhouse In</field>
+            <field name="code">asset.wearhouse.in</field>
+            <field name="prefix">EIU/WH/IN/</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>       
+    </data>
+</odoo>
