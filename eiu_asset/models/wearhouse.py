@@ -1,3 +1,4 @@
+import json
 from re import S
 from odoo import api, fields, models, _,tools, SUPERUSER_ID
 from odoo.exceptions import AccessError,ValidationError
@@ -103,13 +104,16 @@ class AssetWearhouseDetail(models.Model):
                                       ('new ','Thiết bị mới 100%'),
                                     ],string='Tình trạng thiết bị',default="new")
 
+    categ_id = fields.Many2one(
+        'product.category', 'Danh  mục sản phẩm',change_default=True,  required=True)
+    product_attri = fields.Text(string="Đơn vị",readonly=True)
+
     quantity_available= fields.Integer(string="Số lượng trước khi thay đổi")
     quantity_update_inventory= fields.Integer(string ="Số lượng cập nhật trong kho",compute='_compute_quantity_inventory',store=True,readonly=False,inverse='_inverse_qty_wearhouse')
 
     quantity_wearhouse = fields.Integer(string="Số lượng trong kho",compute='_compute_quantity_wearhouse',store=False)
 
-    categ_id = fields.Many2one(
-        'product.category', 'Danh  mục sản phẩm',change_default=True,  required=True)
+
 
     ##-----Method----##
     @api.depends('quantity')
@@ -140,6 +144,10 @@ class AssetWearhouseDetail(models.Model):
             if rec.product_id:
                 item = self.env['stock.quant'].search([('product_id', '=', rec.product_id.id),('location_id.usage', '=', 'internal')])
                 rec.quantity_wearhouse = item.quantity
+
+                # Add attribute to product
+                q_attribute_id = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', rec.product_id.id)])
+                rec.product_attri = q_attribute_id.attribute_id.name if q_attribute_id else ''
             else:
                 rec.quantity_wearhouse =0
         
@@ -155,7 +163,6 @@ class AssetWearhouseDetail(models.Model):
     # Tính toán lại số lượng trong kho trước khi update
     @api.onchange("quantity_update_inventory")
     def _inverse_qty_wearhouse(self):
-        print("Inverse")
         for rec in self:
             rec.quantity_wearhouse +=  rec.quantity_update_inventory 
 
@@ -172,24 +179,29 @@ class AssetWearhouseDetail(models.Model):
     def create(self, vals):
         res = super(AssetWearhouseDetail, self).create(vals)
         for rec in res:
-            self._update_quantity(rec.product_id,rec.quantity_update_inventory)
+            self._update_quantity(rec.product_id,rec.quantity_update_inventory, rec.asset_wearhouse_id.room_id)
         return res
 
     # #override write(update) method
     def write(self, values):
         for item in self:
             if 'quantity_update_inventory' in values:
-                self._update_quantity(item.product_id,values.get('quantity_update_inventory',0))
+                self._update_quantity(item.product_id,values.get('quantity_update_inventory',0), self.asset_wearhouse_id.room_id)
             
         return super(AssetWearhouseDetail, self).write(values)
 
-    def _update_quantity(self,product,quantity):
-        product = self.env['stock.quant'].search([('product_id', '=', product.id),('location_id.usage', '=', 'internal')])
+    # Update quantity in wearhouse
+    def _update_quantity(self,product_item,quantity,room_id):
+        product = self.env['stock.quant'].search([('product_id', '=', product_item.id),('location_id.usage', '=', 'internal')])
+
+
+        print("room_id",room_id)
         
         #update quantity
         product.quantity +=quantity
         self.env['stock.quant'].write(product)
-            
+        self.env['asset.block.product.line']._check_quantity(room_id,product_item,-quantity if quantity >0 else abs(quantity))
+
 
 class StockQuantityInherit(models.Model):
     _inherit = 'stock.quant'
