@@ -48,22 +48,28 @@
                     </div>
                     <group>
                         <group>
-                            <field name="current_user"/>
-                            <field name="note"/>
-                            <field name="date_wearhouse"/>
+                            <field name="name_expoter"/>
+                            <field name="mobi_expoter" />
+                            <field name="dept_expoter" />
+
                         </group>
                         <group>
                             <field name="block_id"/>
                             <field name="room_id"/>
+
+                            <field name="name_receiver"/>
+                            <field name="mobi_receiver"/>
+                            <field name="dept_receiver"/>
                             <!-- <div class="oe_left">
                                 <label for="name_receiver" string="Người nhận" attrs="{'invisible': [('wearhouse_type', '!=', 'wearhouse_out')]}" style="font-weight:bold;"/>
                                 <label for="name_receiver" string="Người trả" attrs="{'invisible': [('wearhouse_type', '!=', 'wearhouse_in')]}" style="font-weight:bold;"/>
                             </div> -->
-                            <field name="name_receiver"/>
-
-                            <field name="dept_receiver"/>
+                        </group>
+                        <group>
+                            <field name="note"/>
+                            <field name="date_wearhouse"/>
+                            <field name="current_user"/>
                             <field name="wearhouse_type" invisible='1'/>
-                            
                         </group>
                     </group>
                     <notebook>
@@ -112,7 +118,7 @@
         <field name="arch" type="xml">
             <tree decoration-warning ="state=='applying'">
                 <field name="reference"/>
-                <field name="current_user"/>
+                <field name="name_expoter"/>
                 <field name="note"/>
                 <field name="date_wearhouse"/>
                 <field name="name_receiver"/>

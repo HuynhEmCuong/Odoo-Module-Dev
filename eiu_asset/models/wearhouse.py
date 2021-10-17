@@ -15,12 +15,19 @@ class AssetWearhouse(models.Model):
     #### properties
     reference  = fields.Char(string="Mã phiếu", required=True, copy=False, readonly=True,
                             default=lambda self: _('New'))
-    current_user = fields.Many2one('res.users','Người xuất', default=lambda self: self.env.user,readonly=True )
+    current_user = fields.Many2one('res.users','Người Tạo', default=lambda self: self.env.user,readonly=True )
 
     date_wearhouse = fields.Datetime(string="Ngày xuất kho",
     default=fields.Datetime.now)
+
+    name_expoter =  fields.Char(string="Người xuất" , required=True )
+    mobi_expoter = fields.Char(string="Số điện thoại", required=True)
+    dept_expoter = fields.Char(string="Bộ phận", required=True)
+
     name_receiver = fields.Char(string="Người nhận" , required=True )
+    mobi_receiver = fields.Char(string="Số điện thoại" , required=True )
     dept_receiver = fields.Char(string="Bộ phận" , required=True )
+
     note = fields.Text(string='Ghi chú')
     state = fields.Selection([('applying', 'Đang lên đơn'), ('confirm', 'Hoàn thành')],default='applying',string="Trạng thái", tracking=True )
     wearhouse_type = fields.Selection([('wearhouse_out', 'Xuất Kho'), ('wearhouse_in', 'Nhập Kho ')],string="Wearhouse type",default='wearhouse_out')

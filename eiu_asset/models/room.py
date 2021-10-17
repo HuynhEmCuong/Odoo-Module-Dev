@@ -14,7 +14,7 @@ class AssetRoom(models.Model):
     responsible_id = fields.Many2one(comodel_name="res.partner", string='Người tạo')
     state = fields.Selection([('active', 'Active'), ('lock', 'Lock')],default='active',string="Trạng thái", tracking=True )
     block_id =  fields.Many2one('asset.block', string="Block", required=True)
-    count_product = fields.Integer(string="Số lượng ", conpute="_compute_quanity_product")
+    count_product = fields.Integer(string="Số lượng sản phẩm", compute="_compute_quanity_product",)
 
 
     @api.model
@@ -26,7 +26,11 @@ class AssetRoom(models.Model):
         return res
 
     # show quantity product in room
-    # def _compute_quanity_product(self):
-    #     for rec in self:
-
-
+    def _compute_quanity_product(self):
+        for rec in self:
+            list_product = self.env['asset.block.product.line'].search([('room_id', '=',
+                                                                         rec.ids)])
+            quantity = 0
+            if list_product:
+                quantity = sum(list_product.mapped('quantity'))
+            rec.count_product = quantity
