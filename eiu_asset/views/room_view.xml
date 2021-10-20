@@ -23,7 +23,6 @@
                 <field name="name"/>
                 <field name="note"/>
                 <field name="state"/>
-                <field name="count_product"/>
                 <field name="block_id"/>
                 <field name="responsible_id"/>
             </tree>
@@ -75,13 +74,8 @@
         </field>
     </record>
 
-    <menuitem id="menu_room_root" name="Phòng" parent="menu_manager_root" sequence="10" />
 
-    <menuitem
-        id="manager_room"
-        name="Danh sách phòng"
-        parent="menu_room_root"
-        action="room_action"
-        sequence="30"/>
+    <!-- Add Menu-->
+
 
 </odoo>

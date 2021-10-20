@@ -14,7 +14,7 @@ class AssetRoom(models.Model):
     responsible_id = fields.Many2one(comodel_name="res.partner", string='Người tạo')
     state = fields.Selection([('active', 'Active'), ('lock', 'Lock')],default='active',string="Trạng thái", tracking=True )
     block_id =  fields.Many2one('asset.block', string="Block", required=True)
-    count_product = fields.Integer(string="Số lượng sản phẩm", compute="_compute_quanity_product",)
+    count_product = fields.Integer(string="Số lượng sản phẩm", compute="_compute_quanity_product",store=False)
 
 
     @api.model

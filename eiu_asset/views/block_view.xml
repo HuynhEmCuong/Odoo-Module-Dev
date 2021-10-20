@@ -28,7 +28,6 @@
         </field>
     </record>
 
-
     <!-- Form Crete and Edit -->
     <record id="view_block_form" model="ir.ui.view">
         <field name="name">view_block_form</field>
@@ -90,20 +89,48 @@
             </search>
         </field>
     </record>  
-   
 
-   
 
-    <menuitem
-        id="asset_block"
-        name="Block"
-        parent="menu_manager_root"
-        sequence="10"/>
 
-    <menuitem
-        id="manager_bloc"
-        name="Danh sách block"
-        parent="asset_block"
-        action="block_action"
-        sequence="10"/>
+
+    <record id="asset_block_report" model="ir.actions.server">
+            <field name="name">Testtt</field>
+            <field name="model_id" ref="model_asset_block"/>
+            <field name="type">ir.actions.server</field>
+            <field name="state">code</field>
+            <field name="code">
+                model.action_menu_report()
+            </field>
+    </record>
+
+    <record id="view_block_report_tree" model="ir.ui.view">
+        <field name="name">view_block_report_tree</field>
+        <field name="model">asset.block</field>
+        <field eval="20" name="priority"/>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="code"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_block_report_form" model="ir.ui.view">
+        <field name="name">view_block_report_form</field>
+        <field name="model">asset.block</field>
+         <field eval="20" name="priority"/>
+        <field name="arch" type="xml">
+            <form string="Inventory Valuation" create="false" edit="false" delete="false">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="name" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
 </odoo>

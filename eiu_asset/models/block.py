@@ -15,6 +15,7 @@ class AssetBlock(models.Model):
     state = fields.Selection([('active', 'Active'), ('lock', 'Lock')],default='active',string="Status", tracking=True )
     rooms_ids  = fields.One2many('asset.room', 'block_id',string="Rooms")
 
+
     @api.model
     def create(self, vals):
         if vals.get('reference', _('New')) == _('New'):
@@ -22,3 +23,7 @@ class AssetBlock(models.Model):
                 'asset.block') or _('New')
         res = super(AssetBlock, self).create(vals)
         return res
+
+
+    def action_menu_report(self):
+        print("OK")

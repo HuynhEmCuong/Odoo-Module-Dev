@@ -15,11 +15,13 @@
     'data': [
         'security/ir.model.access.csv',
         'data/data.xml',
+        'views/asset_view_menu.xml',
         'views/wearhouse_view.xml',
         'views/wearhouse_in_view.xml',
         'views/block_view.xml',
         'views/room_view.xml',
         'views/product_category_view.xml',
+        'views/report_quntity_product_view.xml',
         'report/report_wearhouse.xml',
         'report/report_wearhouse_template.xml'
     ],
