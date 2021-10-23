@@ -158,4 +158,13 @@
         parent="asset_setting"
         action="block_action"
         sequence="10"/>
+
+
+    <menuitem
+         id="asset_report_room"
+         name="Báo cáo theo block"
+         parent="asset_report"
+         sequence="1"
+         action="asset_block_report"
+    />
 </odoo>

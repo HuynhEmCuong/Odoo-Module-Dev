@@ -17,4 +17,11 @@
 
 
 
+<!--    menu-->
+<menuitem
+        id="manager_wearhouse_in"
+        name="Nhập  kho"
+        parent="menu_wearhouse_root"
+        action="wearhouse_view_action"
+        sequence="2"/>
 </odoo>

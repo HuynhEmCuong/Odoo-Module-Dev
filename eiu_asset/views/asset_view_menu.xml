@@ -6,19 +6,7 @@
     <!--Menu wearhouse-->
     <menuitem id="menu_wearhouse_root" name="Kho" parent="menu_manager_root" sequence="1" />
 
-    <menuitem
-        id="manager_wearhouse"
-        name="Xuất kho"
-        parent="menu_wearhouse_root"
-        action="wearhouse_action"
-        sequence="1"/>
 
-    <menuitem
-        id="manager_wearhouse_in"
-        name="Nhập  kho"
-        parent="menu_wearhouse_root"
-        action="wearhouse_view_action"
-        sequence="2"/>
     <!--End Menu werhouse-->
 
 
@@ -28,14 +16,6 @@
      name="Báo cáo"
      parent="menu_manager_root"
      sequence="2"
-    />
-
-      <menuitem
-     id="asset_report_room"
-     name="Báo cáo theo block"
-     parent="asset_report"
-     sequence="1"
-     action="asset_block_report"
     />
 
 

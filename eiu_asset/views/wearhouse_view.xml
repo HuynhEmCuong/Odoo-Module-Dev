@@ -130,4 +130,11 @@
     </record>
 
 
+<!--    Menu-->
+     <menuitem
+        id="manager_wearhouse"
+        name="Xuất kho"
+        parent="menu_wearhouse_root"
+        action="wearhouse_action"
+        sequence="1"/>
 </odoo>
