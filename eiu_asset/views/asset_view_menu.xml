@@ -32,9 +32,9 @@
 
       <menuitem
      id="asset_report_room"
-     name="Báo cáo"
+     name="Báo cáo theo block"
      parent="asset_report"
-     sequence="2"
+     sequence="1"
      action="asset_block_report"
     />
 
@@ -46,19 +46,11 @@
         parent="menu_manager_root"
         sequence="3"/>
 
-    <menuitem
-        id="manager_block"
-        name="Block"
-        parent="asset_setting"
-        action="block_action"
-        sequence="10"/>
 
-    <menuitem
-        id="manager_room"
-        name="Phòng"
-        parent="asset_setting"
-        action="room_action"
-        sequence="20"/>
+
+
+
+
     <!--End menu setting-->
 
 

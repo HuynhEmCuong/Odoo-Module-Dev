@@ -22,11 +22,11 @@ class AssetWearhouse(models.Model):
 
     name_expoter =  fields.Char(string="Người xuất" , required=True )
     mobi_expoter = fields.Char(string="Số điện thoại", required=True)
-    dept_expoter = fields.Char(string="Bộ phận", required=True)
+    dept_expoter = fields.Many2one('asset.dept', string="Bộ phận", required=True)
 
     name_receiver = fields.Char(string="Người nhận" , required=True )
     mobi_receiver = fields.Char(string="Số điện thoại" , required=True )
-    dept_receiver = fields.Char(string="Bộ phận" , required=True )
+    dept_receiver = fields.Many2one('asset.dept', string="Bộ phận", required=True)
 
     note = fields.Text(string='Ghi chú')
     state = fields.Selection([('applying', 'Đang lên đơn'), ('confirm', 'Hoàn thành')],default='applying',string="Trạng thái", tracking=True )
@@ -185,29 +185,29 @@ class AssetWearhouseDetail(models.Model):
     @api.model
     def create(self, vals):
         res = super(AssetWearhouseDetail, self).create(vals)
+
         for rec in res:
-            self._update_quantity(rec.product_id,rec.quantity_update_inventory, rec.asset_wearhouse_id.room_id)
+            print("Block Id > ",rec.asset_wearhouse_id.block_id)
+            self._update_quantity(rec.product_id,rec.quantity_update_inventory, rec.asset_wearhouse_id.room_id,
+                                  rec.asset_wearhouse_id.block_id)
         return res
 
     # #override write(update) method
     def write(self, values):
         for item in self:
             if 'quantity_update_inventory' in values:
-                self._update_quantity(item.product_id,values.get('quantity_update_inventory',0), self.asset_wearhouse_id.room_id)
+                self._update_quantity(item.product_id,values.get('quantity_update_inventory',0), self.asset_wearhouse_id.room_id,self.asset_wearhouse_id.block_id)
             
         return super(AssetWearhouseDetail, self).write(values)
 
     # Update quantity in wearhouse
-    def _update_quantity(self,product_item,quantity,room_id):
+    def _update_quantity(self,product_item,quantity,room_id,block_id):
         product = self.env['stock.quant'].search([('product_id', '=', product_item.id),('location_id.usage', '=', 'internal')])
 
-
-        print("room_id",room_id)
-        
         #update quantity
         product.quantity +=quantity
         self.env['stock.quant'].write(product)
-        self.env['asset.block.product.line']._check_quantity(room_id,product_item,-quantity if quantity >0 else abs(quantity))
+        self.env['asset.block.product.line']._check_quantity(room_id,product_item,-quantity if quantity >0 else abs(quantity),block_id)
 
 
 class StockQuantityInherit(models.Model):

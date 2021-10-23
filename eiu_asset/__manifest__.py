@@ -19,6 +19,7 @@
         'views/wearhouse_view.xml',
         'views/wearhouse_in_view.xml',
         'views/block_view.xml',
+        'views/dept_view.xml',
         'views/room_view.xml',
         'views/product_category_view.xml',
         'views/report_quntity_product_view.xml',

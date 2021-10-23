@@ -1,38 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <!--    Create module for module in odoo-->
-    <record id="room_action" model="ir.actions.act_window">
-        <field name="name">Rooms</field>
+    <record id="dept_action" model="ir.actions.act_window">
+        <field name="name">Bộ phận</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">asset.room</field>
+        <field name="res_model">asset.dept</field>
         <field name="view_mode">tree,kanban,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 create your first Room!
             </p>
         </field>
-    </record> 
+    </record>
 
     <!-- List data -->
-    <record id="view_room_tree" model="ir.ui.view">
-        <field name="name">view_room_tree</field>
-        <field name="model">asset.room</field>
+    <record id="view_dept_tree" model="ir.ui.view">
+        <field name="name">view_dept_tree</field>
+        <field name="model">asset.dept</field>
         <field name="arch" type="xml">
             <tree>
                 <field name="code"/>
                 <field name="name"/>
                 <field name="note"/>
                 <field name="state"/>
-                <field name="block_id"/>
                 <field name="responsible_id"/>
             </tree>
         </field>
     </record>
 
     <!-- Form Crete and Edit -->
-    <record id="view_room_form" model="ir.ui.view">
-        <field name="name">view_rom_form</field>
-        <field name="model">asset.room</field>
+    <record id="view_dept_form" model="ir.ui.view">
+        <field name="name">view_dept_form</field>
+        <field name="model">asset.dept</field>
         <field name="arch" type="xml">
             <form>
                 <sheet>
@@ -40,7 +39,6 @@
                         <group>
                             <field name="name"/>
                             <field name="code"/>
-                            <field name="block_id"/>
                             <field name="responsible_id"/>
                          </group>
                            <group>
@@ -56,31 +54,13 @@
                 </div>
             </form>
         </field>
-    </record>    
-    
-    <!-- Config - search -->
-    <record id="room_search" model="ir.ui.view">
-        <field name="name">room_search</field>
-        <field name="model">asset.room</field>
-        <field name="arch" type="xml">
-            <search>
-                <field name="block_id"/>
-                <group  expand="1" string="Group By">
-                    <filter string="Block" name="block" context="{'group_by':'block_id'}"/>
-                </group>
-                <filter string="Active" name="active" domain="[('state', '=', 'active')]"/>
-                <filter string="Lock" name="lock" domain="[('state', '=', 'lock')]"/>
-            </search>
-        </field>
     </record>
 
-
-    <!-- Add Menu-->
-    <menuitem
-        id="manager_room"
-        name="Phòng"
-        parent="asset_setting"
-        action="room_action"
-        sequence="20"/>
+   <menuitem
+    id="manager_dept"
+    name="Bộ phận"
+    parent="asset_setting"
+    action="dept_action"
+    sequence="30"/>
 
 </odoo>

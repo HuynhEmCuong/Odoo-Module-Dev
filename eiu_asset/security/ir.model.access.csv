@@ -1,5 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_asset_block,account.asset.block,model_asset_block,,1,1,1,1
+access_asset_dept,account.asset.dept,model_asset_dept,,1,1,1,1
 access_asset_room,account.asset.room,model_asset_room,,1,1,1,1
 access_asset_wearhouse,account.asset.wearhouse,model_asset_wearhouse,,1,1,1,1
 access_asset_wearhouse_detail,account.asset.wearhouse.detail,model_asset_wearhouse_detail,,1,1,1,1
