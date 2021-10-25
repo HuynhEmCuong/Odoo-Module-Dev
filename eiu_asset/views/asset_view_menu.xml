@@ -3,8 +3,11 @@
 
     <menuitem id="menu_manager_root" name="Quản lý tài sản" sequence="10"/>
 
+
+
+
     <!--Menu wearhouse-->
-    <menuitem id="menu_wearhouse_root" name="Kho" parent="menu_manager_root" sequence="1" />
+    <menuitem id="menu_wearhouse_root" name="Kho" parent="menu_manager_root" sequence="2" />
 
 
     <!--End Menu werhouse-->
@@ -15,7 +18,7 @@
      id="asset_report"
      name="Báo cáo"
      parent="menu_manager_root"
-     sequence="2"
+     sequence="3"
     />
 
 
@@ -24,7 +27,7 @@
         id="asset_setting"
         name="Cấu hình"
         parent="menu_manager_root"
-        sequence="3"/>
+        sequence="4"/>
 
 
 

@@ -16,7 +16,7 @@
     </record> 
 
 
-      <record id="wearhouse_detail_action" model="ir.actions.act_window">
+    <record id="wearhouse_detail_action" model="ir.actions.act_window">
         <field name="name">Đơn kho</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">asset.wearhouse.detail</field>
@@ -76,7 +76,6 @@
                         <page  string="Danh sách sản phẩm">
                             <field name="asset_wearhouse_detail">
                                 <tree >
-                               
                                         <field name="categ_id"/>
                                         <field name="product_id"/>
                                         <field name="device_status"/>
@@ -128,6 +127,37 @@
             </tree>
         </field>
     </record>
+
+      <record id="view_wearhouse_kanban" model="ir.ui.view">
+        <field name="name">view_wearhouse_kanban</field>
+        <field name="model">asset.wearhouse</field>
+        <field eval="10" name="priority"/>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" sample="1">
+                <field name="wearhouse_type"/>
+                <field name="reference"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <ul>
+                                    <li>
+                                        wearhouse:
+                                        <field name="wearhouse_type"/>
+                                    </li>
+                                    <li>
+                                        wearhouse:
+                                        <field name="reference"/>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
 
 
 <!--    Menu-->

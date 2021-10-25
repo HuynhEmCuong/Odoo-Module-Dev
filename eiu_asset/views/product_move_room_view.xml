@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--    Create module for module in odoo-->
+    <record id="product_move_room_action" model="ir.actions.act_window">
+        <field name="name">Chuyển Thiết Bị</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">asset.product.move.room</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                create your first Room!
+            </p>
+        </field>
+    </record>
+
+
+    <record id="view_product_move_room_form" model="ir.ui.view">
+        <field name="name">view_product_move_room_form</field>
+        <field name="model">asset.product.move.room</field>
+        <field name="arch" type="xml">
+            <form >
+                <sheet>
+                    <div>
+                         <h1>
+                            <field name="reference"/>
+                        </h1>
+                    </div>
+                    <group>
+                         <group >
+                            <field name="block_id_from"/>
+                            <field name="room_id_from" />
+                        </group>
+                         <group>
+                            <field name="block_id_to"/>
+                            <field name="room_id_to" />
+                        </group>
+                        <group>
+                            <field name="contact"/>
+                            <field name="mobi"/>
+                            <field name="dept"/>
+                        </group>
+                     </group>
+                      <notebook>
+                          <page string="Thêm thông tin " name="extra">
+                            <group>
+                                <group string="Thông tin khác" name="other_infos">
+                                    <field name="date_wearhouse" />
+                                    <field name="current_user" />
+                                    <field name="note" />
+                                </group>
+                            </group>
+                        </page> 
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <menuitem
+        id="manager_product_move"
+        name="Chuyển thiết bị"
+        parent="menu_wearhouse_root"
+        action="product_move_room_action"
+        sequence="3"/>
+
+</odoo>

@@ -75,6 +75,64 @@
     </record>
 
 
+    <!--Add action report room-->
+    <record id="asset_room_report" model="ir.actions.server">
+            <field name="name">Room Report</field>
+            <field name="model_id" ref="model_asset_room"/>
+            <field name="type">ir.actions.server</field>
+            <field name="state">code</field>
+            <field name="code">
+               action = model.action_menu_report()
+            </field>
+    </record>
+    <record id="view_room_report_tree" model="ir.ui.view">
+        <field name="name">view_room_report_tree</field>
+        <field name="model">asset.room</field>
+        <field eval="20" name="priority"/>
+        <field name="arch" type="xml">
+            <tree create="0" edit="0" delete="0">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="count_product"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_room_report_form" model="ir.ui.view">
+        <field name="name">view_room_report_form</field>
+        <field name="model">asset.room</field>
+         <field eval="20" name="priority"/>
+        <field name="arch" type="xml">
+            <form string="Inventory Valuation" create="false" edit="false" delete="false">
+                <sheet>
+                    <group>
+                         <group>
+                            <field name="code"/>
+                            <field name="name" />
+                        </group>
+                         <group>
+                            <field name="note"/>
+                            <field name="state" />
+                        </group>
+                    </group>
+                      <notebook>
+                        <page  string="Danh sách sản phẩm trong phòng">
+                            <field name="product_line_block_ids">
+                                <tree >
+                                    <field name="product_id"/>
+                                    <field name="quantity"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
     <!-- Add Menu-->
     <menuitem
         id="manager_room"
@@ -82,5 +140,13 @@
         parent="asset_setting"
         action="room_action"
         sequence="20"/>
+
+    <menuitem
+         id="asset_report_room"
+         name="Báo cáo theo phòng"
+         parent="asset_report"
+         sequence="2"
+         action="asset_room_report"
+    />
 
 </odoo>

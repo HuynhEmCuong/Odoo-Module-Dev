@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--    Create module for module in odoo-->
+    <record id="wearhouse_view_overview_action" model="ir.actions.server">
+        <field name="name">wearhouse overview</field>
+        <field name="type">ir.actions.server</field>
+        <field name="model_id" ref="model_asset_wearhouse"/>
+        <field name="state">code</field>
+        <field name="code" >
+            action = model.wearhouse_overiview()
+        </field>
+    </record>
+
+
+
+    <record id="wearhouse_overview_kanban" model="ir.ui.view">
+            <field name="name">wearhouse_overview_kanban</field>
+            <field name="model">asset.wearhouse</field>
+            <field eval="20" name="priority"/>
+            <field name="arch" type="xml">
+                <kanban class="oe_background_grey o_kanban_dashboard o_emphasize_colors o_stock_kanban" create="0" edit="0" delete="0">
+                    <field name="count_werhouse_applying_in"/>
+                    <field name="count_werhouse_done_in"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div  >
+                                <div>
+                                    <div t-attf-class="o_kanban_card_header">
+                                        <div class="o_kanban_card_header_title">
+                                           <h3>Phiếu Nhập Kho</h3>
+                                        </div>
+                                        <div class="o_kanban_manage_button_section" >
+                                            <a class="o_kanban_manage_toggle_button" href="#"><i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/></a>
+                                        </div>
+                                    </div>
+                                    <div class="container o_kanban_card_content" >
+                                        <div class="row">
+                                            <div class="col-6 o_kanban_primary_left">
+                                                <span> To Process</span>
+
+                                            </div>
+                                             <div class="col-6 o_kanban_primary_left">
+                                                 <span>Đang lên đơn: </span><field name="count_werhouse_applying_in"/>
+                                                <span>Hoàn thành : </span> <field name="count_werhouse_done_in"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+<!--  <menuitem id="menu_wearhouse_overview"-->
+<!--            name="Tổng quát"-->
+<!--            parent="menu_manager_root"-->
+<!--            action="wearhouse_view_overview_action"-->
+<!--            sequence="1" />-->
+
+</odoo>

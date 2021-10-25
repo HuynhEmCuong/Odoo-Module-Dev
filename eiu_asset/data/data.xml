@@ -32,6 +32,13 @@
             <field name="prefix">EIU/WH/IN/</field>
             <field name="padding">6</field>
             <field name="company_id" eval="False"/>
-        </record>       
+        </record>
+         <record id="seq_asset_product_move_room" model="ir.sequence">
+            <field name="name">Asset Product Move Room</field>
+            <field name="code">assset.product.move.room</field>
+            <field name="prefix">EIU/MOVE/</field>
+            <field name="padding">6</field>
+            <field name="company_id" eval="False"/>
+        </record>
     </data>
 </odoo>

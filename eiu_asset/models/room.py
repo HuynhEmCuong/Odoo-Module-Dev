@@ -16,6 +16,8 @@ class AssetRoom(models.Model):
     block_id =  fields.Many2one('asset.block', string="Block", required=True)
     count_product = fields.Integer(string="Số lượng sản phẩm", compute="_compute_quanity_product",store=False)
 
+    product_line_block_ids = fields.One2many('asset.block.product.line', 'room_id', string="Sản phẩm nằm trong phòng")
+
 
     @api.model
     def create(self, vals):
@@ -34,3 +36,23 @@ class AssetRoom(models.Model):
             if list_product:
                 quantity = sum(list_product.mapped('quantity'))
             rec.count_product = quantity
+
+    @api.model
+    def action_menu_report(self):
+        action = {
+            'name': _('Room Report'),
+            'view_type': 'tree',
+            'view_mode': 'list,form',
+            'res_model': 'asset.room',
+            'type': 'ir.actions.act_window',
+            'domain': [],
+        }
+        action['view_id'] = self.env.ref('eiu_asset.view_room_report_tree').id
+        form_view = self.env.ref('eiu_asset.view_room_report_form').id
+        action.update({
+            'views': [
+                (action['view_id'], 'list'),
+                (form_view, 'form'),
+            ],
+        })
+        return action

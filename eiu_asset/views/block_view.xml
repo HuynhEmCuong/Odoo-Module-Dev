@@ -94,7 +94,7 @@
 
     <!--///// Add Menu + python-->
     <record id="asset_block_report" model="ir.actions.server">
-            <field name="name">Testtt</field>
+            <field name="name">Block Report</field>
             <field name="model_id" ref="model_asset_block"/>
             <field name="type">ir.actions.server</field>
             <field name="state">code</field>
@@ -138,7 +138,6 @@
                         <page  string="Danh sách sản phẩm trong block">
                             <field name="product_line_block_ids">
                                 <tree >
-                                    <field name="room_id"/>
                                     <field name="product_id"/>
                                     <field name="quantity"/>
                                 </tree>
@@ -161,7 +160,7 @@
 
 
     <menuitem
-         id="asset_report_room"
+         id="asset_report_block"
          name="Báo cáo theo block"
          parent="asset_report"
          sequence="1"

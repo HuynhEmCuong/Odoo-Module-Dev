@@ -5,16 +5,15 @@
         <field name="model">product.category</field>
         <field name="inherit_id" ref="product.product_category_form_view" />
         <field name="arch" type="xml">
-            <group name="first" position="after">
+             <group name="first" position="after">
                 <group string="Eiu Asset">
                     <field name="product_code_category" style="width:40%%"/>
 
-                    <field name="check_barcode" style="width:40%%"/>
+                    <field name="product_code_category" style="width:40%%"/>
                 </group>
             </group>
+
         </field>
     </record>
-
-
 
 </odoo>

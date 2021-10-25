@@ -1,5 +1,4 @@
-import json
-from re import S
+
 from odoo import api, fields, models, _,tools, SUPERUSER_ID
 from odoo.exceptions import AccessError,ValidationError
 from lxml import etree
@@ -245,6 +244,58 @@ class StockQuantityInherit(models.Model):
         move = self.env['stock.move'].with_context(inventory_mode=False).create(move_val)
         move._action_done()
 
+
+class AssetWearhouseInherit(models.Model):
+    _inherit = 'asset.wearhouse'
+
+    count_werhouse_applying_in =fields.Integer(string="Số lượng lên đơn nhập kho", store=False,
+                                               compute ='_compute_count_state_wearhouse_in')
+    count_werhouse_done_in = fields.Integer(string="Số lượng hoàn thành nhập kho",store=False,
+                                            compute='_compute_count_state_wearhouse_in')
+
+    count_werhouse_applying_out = fields.Integer(string="Số lượng lên đơn xuất kho", store=False,
+                                                 compute='_compute_count_state_wearhouse_out')
+    count_werhouse_done_out = fields.Integer(string="Số lượng hoàn thành xuất kho" ,store=False,
+                                             compute='_compute_count_state_wearhouse_out')
+
+    @api.model
+    def wearhouse_overiview(self):
+        action = {
+            'name': _('Wearhouse Overivew'),
+            'view_type': 'tree',
+            'view_mode': 'kanban',
+            'res_model': 'asset.wearhouse',
+            'type': 'ir.actions.act_window',
+            'domain': [],
+        }
+        action['view_id'] = self.env.ref('eiu_asset.wearhouse_overview_kanban').id
+        action.update({
+            'views': [
+                (action['view_id'], 'kanban'),
+            ],
+        })
+        return action
+
+    def _compute_count_state_wearhouse_in(self):
+        list_item_wh_in = self.env['asset.wearhouse'].search([(
+            'wearhouse_type', '=' , 'wearhouse_in'
+        )])
+        for rec in self:
+            rec.count_werhouse_applying_in = list_item_wh_in.search_count([(
+                'state', '=', 'applying'
+            )])
+            rec.count_werhouse_done_in = len(list_item_wh_in) - rec.count_werhouse_applying_in
+
+
+    def _compute_count_state_wearhouse_out(self):
+        list_item_wh_in = self.env['asset.wearhouse'].search_count([(
+            'wearhouse_type', '=' , 'wearhouse_in'
+        )])
+        for rec in self:
+            rec.count_werhouse_applying_out = list_item_wh_in.search_count([(
+                'state', '=', 'applying'
+            )])
+            rec.count_werhouse_done_out = list_item_wh_in - rec.count_werhouse_applying_in
 
 
 

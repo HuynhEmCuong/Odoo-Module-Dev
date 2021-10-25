@@ -4,7 +4,7 @@ class ProductCategoryInherit(models.Model):
     _inherit ="product.category"
 
     product_code_category = fields.Char(string ="Code", required=True, )
-    check_barcode         = fields.Selection([('Use', 'use'),('Not', 'not')],default="not", string="Use barcode")
+    check_barcode         = fields.Selection([('Use', 'use'),('Not', 'not')], string="Use barcode",required=True)
 
 
 class AssetBlockProduct (models.Model):
@@ -18,10 +18,6 @@ class AssetBlockProduct (models.Model):
 
     # Find product and update quantity if exits reverse
     def _check_quantity(self, room_id, product_id,quantity,block_id):
-        print("room",room_id)
-        print("product", product_id)
-        print("quantity", quantity)
-        print("Block", block_id)
         item = self.env['asset.block.product.line'].search([('product_id', '=' , product_id.id),
                                                             ('room_id','=', room_id.id),
                                                             ('block_id','=', block_id.id)])
