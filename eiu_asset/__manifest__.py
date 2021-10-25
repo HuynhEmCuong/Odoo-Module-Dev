@@ -9,6 +9,7 @@
         'product',
         'mail',
         'stock',
+        'account'
 
     ],
     'license':'LGPL-3',
@@ -25,6 +26,9 @@
         'views/room_view.xml',
         'views/product_move_room_view.xml',
         'views/product_category_view.xml',
+        'views/account_move_view.xml',
+
+
         'report/report_wearhouse.xml',
         'report/report_wearhouse_template.xml'
     ],
