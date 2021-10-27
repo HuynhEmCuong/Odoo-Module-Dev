@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    Change style css -->
+       <template id="_asset_primary_variable_theme" inherit_id="website._assets_primary_variables" >
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/scss" href="/eiu_asset/static/src/scss/theme_style.scss"/>
+        </xpath>
+    </template>
+</odoo>
