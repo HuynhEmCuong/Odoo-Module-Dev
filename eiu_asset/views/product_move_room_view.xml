@@ -46,15 +46,19 @@
                                  <tree >
                                      <field name="product_ids" />
                                      <field name="product_code" />
-                                     <field name="quantity_in_room" />
                                      <field name="quantity" />
+
+                                     <field name="quantity_in_room_changed" invisible="1"/>
+                                     <field name="quantity_in_room" invisible="1"/>
                                      <field name="room_id_from" invisible="1"/>
                                  </tree>
                                   <form>
                                     <group>
                                         <field name="product_ids" />
                                         <field name="quantity" />
-                                        <field name="quantity_in_room" />
+                                        <field name="quantity_in_room_changed" />
+
+                                        <field name="quantity_in_room" invisible="1"/>
                                         <field name="quantity_available" invisible="1"/>
                                         <field name="quantity_update_room" invisible="1"/>
                                     </group>
