@@ -1,4 +1,5 @@
 from odoo import api, fields, models, _
+from odoo.exceptions import AccessError,ValidationError
 
 class AssetProductMoveRoom(models.Model):
     _name = "asset.product.move.room"
@@ -57,7 +58,12 @@ class AssetProductMoveRoomDetial(models.Model):
         string='Phòng chuyển', required=True)
     product_ids = fields.Many2one('product.product',string='Sản phẩm' ,required=True)
     product_code = fields.Char("Mã sản phẩm",related='product_ids.default_code')
-    quantity = fields.Integer(string="Số lượng")
+
+    quantity_in_room = fields.Integer("Số lượng trong phòng", compute='_compute_count_product_in_room',store=False,default=0)
+
+    quantity = fields.Integer(string="Số lượng", required=True)
+    quantity_available = fields.Integer(string="Số lượng trước khi thay đổi",default=0)
+    quantity_update_room = fields.Integer(string="Số lượng upload room",store=False,compute="_compute_update_quantity")
 
     @api.onchange('room_id_from')
     def _get_product_in_room(self):
@@ -67,6 +73,40 @@ class AssetProductMoveRoomDetial(models.Model):
                     [('room_id', '=', rec.room_id_from.id if rec.room_id_from else False)])
                 products =list_product_in_room.mapped('product_id').mapped('id')
                 return {'domain': {'product_ids': [('id', 'in', products)]}}
+
+    @api.depends('product_ids')
+    def _compute_count_product_in_room(self):
+        for rec in self:
+            if rec.product_ids:
+                item = (self.env['asset.block.product.line'].search([('product_id','=', rec.product_ids.id)]))
+                rec.quantity_in_room=item.quantity
+
+
+    @api.depends('quantity')
+    def _compute_update_quantity(self):
+        for rec in self:
+            if rec.quantity > rec.quantity_in_room:
+                rec.quantity = rec.quantity_in_room
+                raise ValidationError(_('Số lượng trong kho chỉ còn %d', rec.quantity_in_room))
+            else:
+                rec.quantity_update_room = rec.quantity_available-rec.quantity
+            rec.quantity_available = rec.quantity
+
+    @api.constrains('quantity')
+    def _check_quantity(self):
+        if self.quantity <= 0:
+             raise ValidationError(_('Số lượng xuất hoặc nhập kho phải lớn hơn 0'))
+        return True;
+
+
+    def update_quantity(self,quantity,room_to,room_form,product_ids):
+        for pro in product_ids:
+            print("product", pro)
+
+
+
+
+
 
 
 
