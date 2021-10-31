@@ -7,7 +7,9 @@ class AssetProductMoveRoom(models.Model):
     _description = "Assset Product Move Room"
     _rec_name = "reference"
 
-    reference = fields.Char(string="Order reference", required=True, copy=False, readonly=True,
+
+    can_edit = fields.Boolean(srting="Can Edit",default =False)
+    reference = fields.Char(string="Mã phiếu chuyển", required=True, copy=False, readonly=True,
                             default=lambda self: _('New'))
     state = fields.Selection([('applying', 'Đang lên đơn'), ('confirm', 'Hoàn thành')], default='applying',
                              string="Trạng thái", tracking=True)
@@ -35,11 +37,21 @@ class AssetProductMoveRoom(models.Model):
     product_move_detail_ids = fields.One2many('asset.product.move.room.detail', 'product_move_id',
                                               string="Danh sách sản phẩm")
 
+    def action_confirm(self):
+        for rec in self:
+            rec.state = 'confirm'
+
+    def action_applying(self):
+        for rec in self:
+            rec.state = 'applying'
+
     @api.model
     def create(self, vals):
         if vals.get('reference', _('New')) == _('New'):
             vals['reference'] = self.env['ir.sequence'].next_by_code(
                 'assset.product.move.room') or _('New')
+
+        vals['can_edit'] =True
         res = super(AssetProductMoveRoom, self).create(vals)
         return res
 
@@ -70,15 +82,16 @@ class AssetProductMoveRoomDetail(models.Model):
 
     quantity = fields.Integer(string="Số lượng", required=True)
     quantity_available = fields.Integer(string="Số lượng trước khi thay đổi", default=0)
-    quantity_update_room = fields.Integer(string="Số lượng upload room", store=False,
+    quantity_update_room = fields.Integer(string="Số lượng upload room", store=True,readonly=False,
                                           compute="_compute_update_quantity")
 
     # Validation
     @api.constrains('quantity')
     def _check_quantity(self):
-        if self.quantity <= 0:
-            raise ValidationError(_('Số lượng xuất hoặc nhập kho phải lớn hơn 0'))
-        return True;
+        for rec in self:
+            if rec.quantity <= 0:
+                raise ValidationError(_('Số lượng xuất hoặc nhập kho phải lớn hơn 0'))
+            return True;
 
     # Get product in room from
     @api.onchange('room_id_from')
@@ -95,7 +108,8 @@ class AssetProductMoveRoomDetail(models.Model):
     def _compute_count_product_in_room(self):
         for rec in self:
             if rec.product_ids:
-                items = (self.env['asset.block.product.line'].search([('product_id', '=', rec.product_ids.id)]))
+                items = (self.env['asset.block.product.line'].search([('product_id', '=', rec.product_ids.id),
+                                                                      ('room_id', '=', rec.room_id_from.id)]))
                 rec.quantity_in_room = rec.quantity_in_room_changed = sum(items.mapped('quantity'))
             else :
                 rec.quantity_in_room = rec.quantity_in_room_changed =0
@@ -112,16 +126,28 @@ class AssetProductMoveRoomDetail(models.Model):
                 rec.quantity_update_room = rec.quantity_available - rec.quantity
                 # Update quantity of product ready to save in room
                 rec.quantity_in_room_changed = rec.quantity_in_room - rec.quantity
-
             rec.quantity_available = rec.quantity
 
 
 
     # override method creat & write to quantity_update_room.
     def create(self, vals_list):
-        print("Data", vals_list)
+
         res = super(AssetProductMoveRoomDetail, self).create(vals_list)
+        for item  in res:
+            self.env['asset.block.product.line']._check_quantity(item.product_move_id.room_id_from,item.product_ids,item.quantity_update_room,item.product_move_id.block_id_from)
+            self.env['asset.block.product.line']._check_quantity(item.product_move_id.room_id_to,item.product_ids,-item.quantity_update_room,item.product_move_id.block_id_to)
+
+        return res
 
 
     def write(self,values):
-        return super(AssetProductMoveRoomDetail, self).write(values)
+       if 'quantity_update_room' in values:
+           self.env['asset.block.product.line']._check_quantity(self.product_move_id.room_id_from,self.product_ids,values.get('quantity_update_room',0),self.product_move_id.block_id_from)
+           self.env['asset.block.product.line']._check_quantity(self.product_move_id.room_id_to, self.product_ids,-(
+                                                                values.get('quantity_update_room', 0)),
+                                                                self.product_move_id.block_id_to)
+
+       return super(AssetProductMoveRoomDetail, self).write(values)
+
+

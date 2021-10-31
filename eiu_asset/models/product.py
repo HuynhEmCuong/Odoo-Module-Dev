@@ -26,9 +26,9 @@ class AssetBlockProduct (models.Model):
             super(AssetBlockProduct, self).write(item)
         else:
             new_vals = {
-                'block_id':block_id.id,
+                'block_id': block_id.id,
                 'room_id': room_id.id,
                 'product_id': product_id.id,
-                'quantity': quantity
+                'quantity': abs(quantity)
             }
             super(AssetBlockProduct, self).create(new_vals)

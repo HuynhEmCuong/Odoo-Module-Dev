@@ -19,6 +19,11 @@
         <field name="model">asset.product.move.room</field>
         <field name="arch" type="xml">
             <form >
+                <header>
+                    <button id="button_confirm" name="action_confirm" string="Hoàn thành" class="btn-primary" states="applying" type="object" confirm="Bạn có muốn hoàn thành?"/>
+                    <button id="button_applying" name="action_applying" string="Hủy bỏ"  states="confirm" type="object" />
+                    <field name="state" widget="statusbar" />
+                </header>
                 <sheet>
                     <div>
                          <h1>
@@ -27,12 +32,13 @@
                     </div>
                     <group>
                          <group >
-                            <field name="block_id_from"/>
-                            <field name="room_id_from" />
+                            <field name="can_edit" invisible="1"/>
+                            <field name="block_id_from"  attrs="{'readonly': [('can_edit', '=', True)]}"/>
+                            <field name="room_id_from" attrs="{'readonly': [('can_edit', '=', True)]}"/>
                         </group>
                          <group>
-                            <field name="block_id_to"/>
-                            <field name="room_id_to" />
+                            <field name="block_id_to" attrs="{'readonly': [('can_edit', '=', True)]}"/>
+                            <field name="room_id_to" attrs="{'readonly': [('can_edit', '=', True)]}"/>
                         </group>
                         <group>
                             <field name="contact"/>
@@ -48,6 +54,7 @@
                                      <field name="product_code" />
                                      <field name="quantity" />
 
+                                     <field name="quantity_update_room" invisible="1"/>
                                      <field name="quantity_in_room_changed" invisible="1"/>
                                      <field name="quantity_in_room" invisible="1"/>
                                      <field name="room_id_from" invisible="1"/>
@@ -58,9 +65,9 @@
                                         <field name="quantity" />
                                         <field name="quantity_in_room_changed" />
 
+                                        <field name="quantity_update_room" invisible="1"/>
                                         <field name="quantity_in_room" invisible="1"/>
                                         <field name="quantity_available" invisible="1"/>
-                                        <field name="quantity_update_room" invisible="1"/>
                                     </group>
                                   </form>
                               </field>
@@ -79,6 +86,26 @@
             </form>
         </field>
     </record>
+
+
+     <record id="view_product_move_room_tree" model="ir.ui.view">
+        <field name="name">view_wearhouse_tree</field>
+        <field name="model">asset.product.move.room</field>
+        <field name="arch" type="xml">
+            <tree decoration-warning ="state=='applying'">
+                <field name="reference"/>
+                <field name="contact"/>
+                <field name="note"/>
+                <field name="date_wearhouse"/>
+                <field name="block_id_from"/>
+                <field name="room_id_from"/>
+                  <field name="block_id_to"/>
+                <field name="room_id_to"/>
+                <field name="state" decoration-success="state == 'confirm'"  decoration-warning="state == 'applying'" widget="badge" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
     <menuitem
         id="manager_product_move"
         name="Chuyển thiết bị"
