@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <record model="ir.module.category" id="module_category_eiu_werhouse">
+         <field name="name">Wearhouse EIU Manager</field>
+        <field name="sequence">99</field>
+    </record>
+
+    <record id="group_asset_wh_users" model="res.groups" >
+        <field name="name">Users EIU</field>
+        <field name="category_id" ref="module_category_eiu_werhouse" />
+    </record>
+     <record id="group_asset_wh_manager" model="res.groups" >
+        <field name="name">Manager EIU</field>
+        <field name="category_id" ref="module_category_eiu_werhouse" />
+        <field name="implied_ids" eval="[(4, ref('group_asset_wh_users'))]" />
+    </record>
+</odoo>

@@ -9,11 +9,12 @@
                 <group string="Eiu Asset">
                     <field name="product_code_category" style="width:40%%"/>
 
-                    <field name="product_code_category" style="width:40%%"/>
+                    <field name="check_barcode" style="width:40%%"/>
                 </group>
             </group>
 
         </field>
     </record>
+
 
 </odoo>

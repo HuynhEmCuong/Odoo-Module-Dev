@@ -15,6 +15,7 @@
     'license':'LGPL-3',
     'website':'https://HuynhCuongEm.vn',
     'data': [
+        'security/security.xml',
         'security/ir.model.access.csv',
         'data/data.xml',
         'views/asset_view_menu.xml',
