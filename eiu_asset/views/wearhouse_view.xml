@@ -36,8 +36,8 @@
             <form>
                 <header>
                      <button id="button_confirm" name="action_confirm" string="Hoàn thành" class="btn-primary" states="applying" type="object" confirm="Bạn có muốn hoàn thành?"/>
-                    <button id="button_applying" name="action_applying" string="Hủy bỏ"  states="confirm" type="object" />
-                    <button id="button_data" name="get_data" string="GetData"  type="object" />
+                     <button id="button_applying" name="action_applying" string="Hủy bỏ"  states="confirm" type="object" />
+<!--                    <button id="button_data" name="get_data" string="GetData"  type="object" />-->
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
@@ -60,6 +60,9 @@
                             <field name="name_receiver"/>
                             <field name="mobi_receiver"/>
                             <field name="dept_receiver"/>
+
+
+
                             <!-- <div class="oe_left">
                                 <label for="name_receiver" string="Người nhận" attrs="{'invisible': [('wearhouse_type', '!=', 'wearhouse_out')]}" style="font-weight:bold;"/>
                                 <label for="name_receiver" string="Người trả" attrs="{'invisible': [('wearhouse_type', '!=', 'wearhouse_in')]}" style="font-weight:bold;"/>
@@ -70,11 +73,12 @@
                             <field name="date_wearhouse"/>
                             <field name="current_user"/>
                             <field name="wearhouse_type" invisible='1'/>
+                            <field name="dept"/>
                         </group>
                     </group>
                     <notebook>
                         <page  string="Danh sách sản phẩm">
-                            <field name="asset_wearhouse_detail">
+                            <field name="asset_wearhouse_detail" attrs="{'readonly' :[('state', '=','confirm')]}">
                                 <tree >
                                         <field name="categ_id"/>
                                         <field name="product_id"/>
@@ -124,6 +128,7 @@
                 <field name="dept_receiver"/>
                 <field name="wearhouse_type" invisible='1'/>
                 <field name="state" decoration-success="state == 'confirm'"  decoration-warning="state == 'applying'" widget="badge" optional="show"/>
+                 <field name="current_user"/>
             </tree>
         </field>
     </record>

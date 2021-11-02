@@ -27,6 +27,8 @@ class AssetWearhouse(models.Model):
     mobi_receiver = fields.Char(string="Số điện thoại" , required=True )
     dept_receiver = fields.Many2one('asset.dept', string="Bộ phận", required=True)
 
+    dept = fields.Many2one('hr.department',string="Bộ Phận Odoo")
+
     note = fields.Text(string='Ghi chú')
     state = fields.Selection([('applying', 'Đang lên đơn'), ('confirm', 'Hoàn thành')],default='applying',string="Trạng thái", tracking=True )
     wearhouse_type = fields.Selection([('wearhouse_out', 'Xuất Kho'), ('wearhouse_in', 'Nhập Kho ')],string="Wearhouse type",default='wearhouse_out')
@@ -53,7 +55,6 @@ class AssetWearhouse(models.Model):
             if vals['wearhouse_type'] =='wearhouse_out':
                  vals['reference']=self.env['ir.sequence'].next_by_code('asset.wearhouse.out') or _('New')
         res = super(AssetWearhouse, self).create(vals)
-        print("Data save >> ",res)
         return res
 
     def action_confirm(self):

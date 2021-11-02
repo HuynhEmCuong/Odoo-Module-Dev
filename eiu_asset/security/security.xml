@@ -14,4 +14,23 @@
         <field name="category_id" ref="module_category_eiu_werhouse" />
         <field name="implied_ids" eval="[(4, ref('group_asset_wh_users'))]" />
     </record>
+
+    <record id="see_only_user_create_wearhouse" model="ir.rule">
+        <field name="name">See Only User Create</field>
+        <field name="model_id" ref="model_asset_wearhouse" />
+        <field name="groups" eval="[(4,ref('group_asset_wh_users'))]" />
+        <field name="domain_force">[('current_user' , '=' , user.id)]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+
+
+    <record id="see_all_wearhouse" model="ir.rule">
+        <field name="name">Manager</field>
+        <field name="model_id" ref="model_asset_wearhouse" />
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4,ref('group_asset_wh_manager'))]" />
+    </record>
 </odoo>
