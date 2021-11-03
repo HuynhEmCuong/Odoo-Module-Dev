@@ -85,13 +85,19 @@ class AssetWearhouse(models.Model):
     
         doc = etree.XML(result['arch'])
         name_receiver = doc.xpath("//field[@name='name_receiver']")
+        name_expoter = doc.xpath("//field[@name='name_expoter']")
 
         labale_name_receiver = 'Người trả'
+        labale_name_expoter = 'Người nhận'
         if check_werhouse_type =='wearhouse_out':
             labale_name_receiver ='Người nhận'
+            labale_name_expoter = 'Người xuất'
        
         if name_receiver:
             name_receiver[0].set("string", labale_name_receiver)
+            result['arch'] = etree.tostring(doc, encoding='unicode')
+        if name_expoter:
+            name_expoter[0].set("string", labale_name_expoter)
             result['arch'] = etree.tostring(doc, encoding='unicode')
 
         return result       
@@ -102,6 +108,13 @@ class AssetWearhouseDetail(models.Model):
     _description ="Asset Wearhouse Detail"
 
     asset_wearhouse_id = fields.Many2one("asset.wearhouse",string ="wear_house",required=True )
+    wearhouse_type= fields.Selection(related='asset_wearhouse_id.wearhouse_type',string="wearhouse_type")
+    block_id =  fields.Many2one('asset.block',related='asset_wearhouse_id.block_id' ,string="Block", required=True)
+    room_id = fields.Many2one(
+        'asset.room',
+        related='asset_wearhouse_id.room_id',
+        string='Phòng', required=True)
+
     product_id = fields.Many2one('product.product',string='Sản phẩm',required=True )
     quantity =  fields.Integer(string="Số lượng",required=True)
     note = fields.Text(string='Mô tả')
@@ -144,10 +157,22 @@ class AssetWearhouseDetail(models.Model):
             if existing_product:
              raise AccessError("Bạn đã chọn trùng")
 
-    #Get quantity in wearhouse        
+    #Get product if type wearhouse out : Product from in Rooms Export
+    @api.onchange('room_id')
+    def _get_product_in_room(self):
+            for rec in self :
+                if (rec.asset_wearhouse_id.wearhouse_type == 'wearhouse_in'):
+                     products = self.env['asset.block.product.line']._get_product_in_room(rec.asset_wearhouse_id.block_id,rec.asset_wearhouse_id.room_id )
+                     if not  products:
+                         raise ValidationError(_('Không có sản phẩm nào trong phòng '))
+                     else :
+                         return {'domain': {'product_id': [('id', 'in', products.mapped('id'))]}}
+
+    #Get quantity in wearhouse
     @api.depends('product_id')        
     def _compute_quantity_wearhouse(self):
         for rec in self:
+            print("wearhouse_type", rec.asset_wearhouse_id.wearhouse_type)
             if rec.product_id:
                 item = self.env['stock.quant'].search([('product_id', '=', rec.product_id.id),('location_id.usage', '=', 'internal')])
                 rec.quantity_wearhouse = item.quantity
@@ -174,6 +199,7 @@ class AssetWearhouseDetail(models.Model):
             rec.quantity_wearhouse +=  rec.quantity_update_inventory 
 
     #Constraints quantity (Bắt lỗi validate field trong model)
+
     @api.constrains('quantity')
     def _check_quantity(self):
         if self.quantity <= 0 :
@@ -207,7 +233,7 @@ class AssetWearhouseDetail(models.Model):
         #update quantity
         product.quantity +=quantity
         self.env['stock.quant'].write(product)
-        self.env['asset.block.product.line']._check_quantity(room_id,product_item,-quantity if quantity >0 else abs(quantity),block_id)
+        self.env['asset.block.product.line']._check_quantity(room_id,product_item,-quantity if quantity > 0 else abs(quantity),block_id)
 
 
 class StockQuantityInherit(models.Model):

@@ -32,3 +32,12 @@ class AssetBlockProduct (models.Model):
                 'quantity': abs(quantity)
             }
             super(AssetBlockProduct, self).create(new_vals)
+
+
+    def _get_product_in_room(self,block_id,room_id):
+        products =[]
+        product_line_item = self.env['asset.block.product.line'].search([('block_id', '=', block_id.id),
+                                                                    ('room_id', '=', room_id.id)])
+        if product_line_item:
+            products = product_line_item.mapped('product_id')
+        return  products
