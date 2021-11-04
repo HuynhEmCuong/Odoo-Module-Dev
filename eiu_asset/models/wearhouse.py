@@ -126,7 +126,7 @@ class AssetWearhouseDetail(models.Model):
 
     categ_id = fields.Many2one(
         'product.category', 'Danh  mục sản phẩm',change_default=True,  required=True)
-    product_attri = fields.Text(string="Đơn vị",readonly=True)
+    product_attri = fields.Text(string="Đơn vị",readonly=True,default=False)
 
     quantity_available= fields.Integer(string="Số lượng trước khi thay đổi")
     quantity_update_inventory= fields.Integer(string ="Số lượng cập nhật trong kho",compute='_compute_quantity_inventory',store=True,readonly=False,inverse='_inverse_qty_wearhouse')
@@ -147,7 +147,7 @@ class AssetWearhouseDetail(models.Model):
                     raise ValidationError(_('Số lượng trong kho chỉ còn %d',rec.quantity_wearhouse))
             else :
                 rec.quantity_update_inventory = rec.quantity  -  rec.quantity_available
-            rec.quantity_available = rec.quantity
+        rec.quantity_available = rec.quantity
            
     #Check product duplicate
     @api.onchange('product_id')
@@ -162,7 +162,7 @@ class AssetWearhouseDetail(models.Model):
     def _get_product_in_room(self):
             for rec in self :
                 if (rec.asset_wearhouse_id.wearhouse_type == 'wearhouse_in'):
-                     products = self.env['asset.block.product.line']._get_product_in_room(rec.asset_wearhouse_id.block_id,rec.asset_wearhouse_id.room_id )
+                     products = self.env['asset.block.product.line']._get_products_in_room(rec.asset_wearhouse_id.block_id,rec.asset_wearhouse_id.room_id )
                      if not  products:
                          raise ValidationError(_('Không có sản phẩm nào trong phòng '))
                      else :
@@ -172,12 +172,27 @@ class AssetWearhouseDetail(models.Model):
     @api.depends('product_id')        
     def _compute_quantity_wearhouse(self):
         for rec in self:
-            print("wearhouse_type", rec.asset_wearhouse_id.wearhouse_type)
             if rec.product_id:
+
+
+                ##### Start Get Quantity Product #####
+                ## Get quantity in Wearhouse
                 item = self.env['stock.quant'].search([('product_id', '=', rec.product_id.id),('location_id.usage', '=', 'internal')])
                 rec.quantity_wearhouse = item.quantity
 
-                # Add attribute to product
+                ## IF werahouse in get qty product in room
+                if (rec.asset_wearhouse_id.wearhouse_type == 'wearhouse_in'):
+
+                    ##Get Category of product
+                    rec.categ_id = self.env['product.template'].search([('id', '=', rec.product_id.id)],
+                                                                       limit=1).mapped('categ_id')
+                    quanty = self.env['asset.block.product.line']._get_quantity_product_in_room(rec.asset_wearhouse_id.block_id,rec.asset_wearhouse_id.room_id ,rec.product_id)
+                    if quanty ==0:
+                        raise ValidationError(_('Số lượng sản phẩm  trong phòng còn 0 '))
+                    rec.quantity_wearhouse = quanty
+                ##### END Get Quantity Product #####
+
+                    # Add attribute to product
                 q_attribute_id = self.env['product.template.attribute.line'].search([('product_tmpl_id', '=', rec.product_id.id)])
                 rec.product_attri = q_attribute_id.attribute_id.name if q_attribute_id else ''
             else:

@@ -78,7 +78,7 @@
                         <page  string="Danh sách sản phẩm">
                             <field name="asset_wearhouse_detail" attrs="{'readonly' :[('state', '=','confirm')]}">
                                 <tree >
-                                    <field name="categ_id" attrs="{'invisible':[('wearhouse_type','=','wearhouse_in')]}"/>
+                                    <field name="categ_id" />
                                     <field name="product_id"/>
                                     <field name="device_status"/>
                                     <field name="quantity"/>

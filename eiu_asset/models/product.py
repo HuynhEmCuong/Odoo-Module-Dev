@@ -34,10 +34,20 @@ class AssetBlockProduct (models.Model):
             super(AssetBlockProduct, self).create(new_vals)
 
 
-    def _get_product_in_room(self,block_id,room_id):
+    def _get_products_in_room(self,block_id,room_id):
         products =[]
         product_line_item = self.env['asset.block.product.line'].search([('block_id', '=', block_id.id),
                                                                     ('room_id', '=', room_id.id)])
         if product_line_item:
             products = product_line_item.mapped('product_id')
         return  products
+
+    def _get_quantity_product_in_room(self,block_id,room_id,product_id):
+        qty_pro = 0
+        items = self.env['asset.block.product.line'].search([('block_id', '=', block_id.id),
+                                                                    ('room_id', '=', room_id.id),('product_id','=',
+                                                                                                  product_id.id)])
+        if items:
+            qty_pro = sum(items.mapped('quantity'))
+
+        return  qty_pro
