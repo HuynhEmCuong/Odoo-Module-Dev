@@ -17,4 +17,18 @@
     </record>
 
 
+    <record id="product_category_tree_view_inherit" model="ir.ui.view">
+        <field name="name">product.category.custom.tree.inherited</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_list_view" />
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='display_name']" position="after">
+             <field name="product_code_category"/>
+              <field name="check_barcode" />
+        </xpath>
+        </field>
+    </record>
+
+
+
 </odoo>
