@@ -9,7 +9,8 @@
         'product',
         'mail',
         'stock',
-        'account'
+        'account',
+        'hr'
 
     ],
     'license':'LGPL-3',
@@ -27,6 +28,7 @@
         'views/room_view.xml',
         'views/product_move_room_view.xml',
         'views/product_category_view.xml',
+        'views/employess_view.xml',
         'views/account_move_view.xml',
         'views/asset_style.xml',
 

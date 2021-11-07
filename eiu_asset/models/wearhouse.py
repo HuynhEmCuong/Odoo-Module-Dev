@@ -121,8 +121,8 @@ class AssetWearhouseDetail(models.Model):
     device_status = fields.Selection([('using','Đang được sử dụng'),
                                       ('warranty','Đang trong thời gian bảo hành'),
                                       ('damaged ','Thiết bị hư'),
-                                      ('new ','Thiết bị mới 100%'),
-                                    ],string='Tình trạng thiết bị',default="new")
+                                      ('new','Thiết bị mới 100%'),
+                                    ],string='Tình trạng thiết bị',default="using")
 
     categ_id = fields.Many2one(
         'product.category', 'Danh  mục sản phẩm',change_default=True,  required=True)
