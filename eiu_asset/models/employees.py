@@ -6,7 +6,8 @@ class EmployeesInherit(models.Model):
     _description = "Employee Inherit"
 
     employee_number = fields.Char(string="Id Number")
-    employes_email = fields.Char(string="Work Email ")
+    employee_email = fields.Char(string="Work Email")
+
 
 
 

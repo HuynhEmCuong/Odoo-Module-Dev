@@ -7,3 +7,4 @@ from .import product_move_room
 from .import account
 from .import stock
 from .import employees
+from .import department

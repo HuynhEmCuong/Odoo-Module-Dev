@@ -8,8 +8,9 @@
             <xpath expr="//field[@name='mobile_phone']" position="before">
                 <field name="employee_number" />
             </xpath>
+
             <xpath expr="//field[@name='work_email']" position="replace">
-                <field name="employes_email" />
+                <field name="employee_email" />
             </xpath>
 
         </field>
