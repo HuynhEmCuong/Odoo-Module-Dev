@@ -29,6 +29,7 @@
         'views/product_move_room_view.xml',
         'views/product_category_view.xml',
         'views/employess_view.xml',
+        'views/department_view.xml',
         'views/account_move_view.xml',
         'views/asset_style.xml',
 

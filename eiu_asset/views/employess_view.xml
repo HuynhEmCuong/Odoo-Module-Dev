@@ -5,12 +5,20 @@
         <field name="model">hr.employee</field>
         <field name="inherit_id" ref="hr.view_employee_form" />
         <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button string="Test Id" name="get_id_number_emp" type="object" />
+
+            </xpath>
             <xpath expr="//field[@name='mobile_phone']" position="before">
-                <field name="employee_number" />
+                <field name="employee_number"  />
             </xpath>
 
             <xpath expr="//field[@name='work_email']" position="replace">
                 <field name="employee_email" />
+            </xpath>
+
+            <xpath expr="//field[@name='coach_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
             </xpath>
 
         </field>
