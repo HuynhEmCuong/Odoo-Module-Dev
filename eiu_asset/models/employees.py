@@ -8,7 +8,16 @@ class EmployeesInherit(models.Model):
     _description = "Employee Inherit"
 
     employee_number = fields.Char(string="Id Number", readonly =1)
-    employee_email = fields.Char(string="Work Email")
+    employee_email = fields.Char(string="Email EIU")
+    employee_is_delete = fields.Selection([('active', 'Active'),('force', 'Force'),('temporary','Temporary')],
+                                          string="Status staff", tracking =True,default ='active')
+    employee_email_gg = fields.Selection([('created', 'Created'),('not', 'Not Crated')],
+                                         string=" Mail Google", tracking =True,default ='not')
+    employee_account_system = fields.Selection([('created', 'Created'), ('not', 'Not Crated')],
+                                               string=" Portal", tracking =True,default ='not')
+    employee_card = fields.Selection([('created', 'Created'), ('not', 'Not Crated')],
+                                     string=" Card", tracking =True,default ='not')
+    employee_staff = fields.Selection([('staff', 'Staff'), ('lecturers', 'Lecturers')],string= "Type")
 
 
 
@@ -42,7 +51,8 @@ class EmployeesInherit(models.Model):
            return f'0{x}'
        else:
            x
-
+    def get_email_emp(self,emp_name):
+        print(emp_name)
 
     # Overide method create
     @api.model
@@ -52,8 +62,13 @@ class EmployeesInherit(models.Model):
             vals.update(self._sync_user(user, vals.get('image_1920') == self._default_image()))
             vals['name'] = vals.get('name', user.name)
 
+
         if vals.get('department_id'):
             vals['employee_number'] = self.get_id_number_emp(vals.get('department_id'))
+
+        if vals.get('name'):
+            self.get_email_emp(vals.get('name'))
+
         employee = super(EmployeesInherit, self).create(vals)
         url = '/web#%s' % url_encode({
             'action': 'hr.plan_wizard_action',
