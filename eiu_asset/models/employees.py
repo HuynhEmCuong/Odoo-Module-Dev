@@ -2,6 +2,7 @@
 from odoo import api, fields, models,_
 from werkzeug.urls import url_encode
 from pyvi import ViUtils
+from datetime import datetime
 import unicodedata
 
 class EmployeesInherit(models.Model):
@@ -22,7 +23,7 @@ class EmployeesInherit(models.Model):
     email_name = fields.Char(string="Email Name")
 
 
-
+    ### Method Create By HCE
     def get_id_number_emp(self,dept):
         items = self.env['hr.employee'].search([('department_id', '=', dept)])
         if items:
@@ -37,11 +38,9 @@ class EmployeesInherit(models.Model):
             emp_number_new = self._sync_emp_number(int(emp_max)+1)
 
             return  f'{dept_code}{emp_number_new}'
-
-        else :
-            dept_code =max(( self.env['hr.department'].search([('id', '=',dept)], limit =1)).mapped('dep_code'))
-            print(dept_code)
-            return  f'{dept_code}0001'
+        else:
+            dept_code = max((self.env['hr.department'].search([('id', '=',dept)], limit =1)).mapped('dep_code'))
+            return f'{dept_code}0001'
 
     def _sync_emp_number(self,x):
        if (x <10) :
@@ -55,7 +54,7 @@ class EmployeesInherit(models.Model):
 
     def get_email_emp(self,emp_name,emp_birthday):
        # Convert signed to unsigned (Có dấu thành không dấu)
-       emp_name_decode =(ViUtils.remove_accents(emp_name)).decode("utf-8")
+       emp_name_decode = (ViUtils.remove_accents(emp_name)).decode("utf-8")
 
        #Convert to lowercase
        emp_name_decode = emp_name_decode.lower()
@@ -72,31 +71,28 @@ class EmployeesInherit(models.Model):
        email_name  = l_name + "." + f_name
 
        #Check Email Exist
-       # email_exist =
-
-       email = email_name+ "@eiu.edu.vn"
-       return email
-
-
-
-
+       email_exist = self.env['hr.employee'].search([('email_name','=',email_name)])
+       if email_exist:
+           email_name =email_name + (datetime.strptime(emp_birthday,'%Y-%m-%d')).strftime("%d%m")
+       email = email_name + "@eiu.edu.vn"
+       data = [email,email_name]
+       return data
 
 
-    # Overide method create
+    # Overide method create write of Odoo
     @api.model
     def create(self, vals):
-        print(vals)
         if vals.get('user_id'):
             user = self.env['res.users'].browse(vals['user_id'])
             vals.update(self._sync_user(user, vals.get('image_1920') == self._default_image()))
             vals['name'] = vals.get('name', user.name)
-
-
         if vals.get('department_id'):
             vals['employee_number'] = self.get_id_number_emp(vals.get('department_id'))
 
         if vals.get('name'):
-            self.get_email_emp(vals.get('name'))
+            data = self.get_email_emp(vals.get('name'), vals.get('birthday'))
+            vals['employee_email'] = data[0]
+            vals['email_name'] = data[1]
 
         employee = super(EmployeesInherit, self).create(vals)
         url = '/web#%s' % url_encode({

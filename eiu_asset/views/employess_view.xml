@@ -5,24 +5,37 @@
         <field name="model">hr.employee</field>
         <field name="inherit_id" ref="hr.view_employee_form" />
         <field name="arch" type="xml">
-            <xpath expr="//header" position="inside">
-                <button string="Test Id" name="get_id_number_emp" type="object" />
-            </xpath>
             <xpath expr="//field[@name='mobile_phone']" position="before">
                 <field name="employee_number"  />
             </xpath>
+
             <xpath expr="//field[@name='work_email']" position="replace">
                 <field name="employee_email" />
             </xpath>
+
             <xpath expr="//field[@name='employee_email']" position="after">
                 <field name="employee_staff" />
             </xpath>
+
+            <xpath expr="//field[@name='department_id']" position="attributes">
+                <attribute name="required">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='employee_staff']" position="after">
+                <field name="email_name" invisible="1" />
+            </xpath>
+
             <xpath expr="//field[@name='coach_id']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//field[@name='work_phone']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
+
+             <xpath expr="//notebook/page[@name='personal_information']//field[@name='birthday']" position="attributes">
+                <attribute name="required">1</attribute>
+            </xpath>
+
             <xpath expr="//notebook/page[last()]" position="after">
                 <page string="EIU Settings" name="eiu_setting" >
                     <group string="Status" >
@@ -31,6 +44,9 @@
                         <field name="employee_card" />
                     </group>
                 </page>
+            </xpath>
+              <xpath expr="//notebook/page[@name='hr_settings']" position="attributes">
+                 <attribute name="invisible">1</attribute>
             </xpath>
         </field>
     </record>
