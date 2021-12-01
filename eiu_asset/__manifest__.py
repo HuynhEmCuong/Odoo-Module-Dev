@@ -32,6 +32,7 @@
         'views/department_view.xml',
         'views/account_move_view.xml',
         'views/asset_style.xml',
+        'views/stock_move.xml',
 
 
         'report/report_wearhouse.xml',
