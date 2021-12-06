@@ -11,6 +11,11 @@
             <xpath expr="//field[@name='move_ids_without_package']//form//field[@name='quantity_done']" position="after">
                 <field name="pro_status" />
             </xpath>
+
+            <xpath expr="//page[@name = 'extra']//group[@name='other_infos']//field[@name='user_id']" position="after">
+                <field name="pro_receiver" />
+                <field name="mobi_receiver" />
+            </xpath>
         </field>
     </record>
 

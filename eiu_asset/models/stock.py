@@ -13,4 +13,7 @@ class StockMoveLineInherit(models.Model):
 class StockPickingInherit(models.Model):
     _inherit = 'stock.picking'
 
-    pro_status = fields.Selection( related ='move_ids_without_package.pro_status',copy=True, )
+    pro_status = fields.Selection(related ='move_ids_without_package.pro_status',copy=True )
+    pro_receiver = fields.Char(string="Receiver")
+    mobi_receiver = fields.Char(string="Mobi")
+
