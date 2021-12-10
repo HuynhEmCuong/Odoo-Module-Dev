@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_create_qrcode_wizard_form" model="ir.ui.view">
+        <field name="name">create.qrcode.wizard.form</field>
+        <field name="model">create.qrcode.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Create Qr Code">
+                <group >
+                    <field name="account_move_id"  groups="account.group_account_invoice"/>
+                    <field name="product_ids"  groups="account.group_account_invoice"/>
+                </group>
+                <footer>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+     <record id="action_create_qrcode_wizard" model="ir.actions.act_window">
+        <field name="name">Create QrCode</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">create.qrcode.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_create_qrcode_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

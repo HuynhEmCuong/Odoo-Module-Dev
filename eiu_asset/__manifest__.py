@@ -36,7 +36,9 @@
 
 
         'report/report_wearhouse.xml',
-        'report/report_wearhouse_template.xml'
+        'report/report_wearhouse_template.xml',
+
+        'wizard/create_qrcode.xml'
     ],
     'demo': [],
     'installable': True,
