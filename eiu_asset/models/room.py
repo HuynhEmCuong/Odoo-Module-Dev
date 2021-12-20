@@ -39,6 +39,7 @@ class AssetRoom(models.Model):
 
     @api.model
     def action_menu_report(self):
+
         action = {
             'name': _('Room Report'),
             'view_type': 'tree',

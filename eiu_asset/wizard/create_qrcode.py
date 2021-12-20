@@ -13,13 +13,18 @@ class CreateQrCodeProduct(models.Model):
     def get_data_product(self):
         if self.account_move_id:
             acount_move  = self.env['account.move'].browse(self.id)
-            print(acount_move)
+            test = self.browse()
             account_move_line = self.env['account.move.line'].search([('move_id' , '=', self.account_move_id.id) ,('product_uom_id' , '!=',False ),('product_id' , '!=',False )])
             return {'domain': {'product_ids': [('id', 'in', account_move_line.mapped('product_id').mapped('id'))]}}
 
-    def print_qrcode(self,data):
-        qr = pyqrcode.QRCode('HCE')
-        qr.svg()
+    def print_qrcode(self):
+        print(self.product_ids.id)
+
+        # print("OK")
+        # tesst = self.browse()
+        # print(tesst.product_ids[0].name)
+        #qr = pyqrcode.QRCode('HCE')
+        # qr.svg()
 
 
 

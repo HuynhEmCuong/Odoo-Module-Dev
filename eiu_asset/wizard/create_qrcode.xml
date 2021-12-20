@@ -10,6 +10,7 @@
                     <field name="product_ids"  groups="account.group_account_invoice"/>
                 </group>
                 <footer>
+                    <button string="Export" class="btn btn-primary" name = "print_qrcode" type="object"  />
                     <button string="Cancel" class="btn-secondary" special="cancel"/>
                 </footer>
             </form>

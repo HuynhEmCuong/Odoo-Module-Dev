@@ -178,7 +178,7 @@ class AssetWearhouseDetail(models.Model):
                 ##### Start Get Quantity Product #####
                 ## Get quantity in Wearhouse
                 item = self.env['stock.quant'].search([('product_id', '=', rec.product_id.id),('location_id.usage', '=', 'internal')])
-                rec.quantity_wearhouse = item.quantity
+                rec.quantity_wearhouse =sum(item.mapped('quantity'))
 
                 ## IF werahouse in get qty product in room
                 if (rec.asset_wearhouse_id.wearhouse_type == 'wearhouse_in'):

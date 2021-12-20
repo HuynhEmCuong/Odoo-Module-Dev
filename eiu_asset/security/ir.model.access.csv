@@ -7,3 +7,4 @@ access_asset_wearhouse_detail,account.asset.wearhouse.detail,model_asset_wearhou
 access_asset_block_product_line,account.asset.wearhouse.detailasset.block.product.line,model_asset_block_product_line,,1,1,1,1
 access_asset_product_move_room,account.asset.product.remove.room,model_asset_product_move_room,,1,1,1,1
 access_asset_product_move_room_detail,account.asset.product.remove.room.detail,model_asset_product_move_room_detail,,1,1,1,1
+access_create_qrcode_wizard,account.create.qrcode.wizard,model_create_qrcode_wizard,account.group_account_invoice,1,1,1,1
