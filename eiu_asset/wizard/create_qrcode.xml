@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <form string="Create Qr Code">
                 <group >
-                    <field name="account_move_id"  groups="account.group_account_invoice"/>
+                    <field name="account_move_id"  groups="account.group_account_invoice" readonly="1"/>
                     <field name="product_ids"  groups="account.group_account_invoice"/>
                 </group>
                 <footer>
