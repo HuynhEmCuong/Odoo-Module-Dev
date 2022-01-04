@@ -28,6 +28,7 @@
         'views/room_view.xml',
         'views/product_move_room_view.xml',
         'views/product_category_view.xml',
+        'views/qr_code_invoice.xml',
 
         'views/account_move_view.xml',
         'views/asset_style.xml',

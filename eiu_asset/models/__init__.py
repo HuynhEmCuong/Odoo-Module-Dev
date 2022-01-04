@@ -6,3 +6,4 @@ from .import dept
 from .import product_move_room
 from .import account
 from .import stock
+from .import qr_code_invoice
